@@ -1,30 +1,18 @@
-import boto3
-from botocore import UNSIGNED
-from botocore.client import Config
-from urllib.parse import urlparse
-
-def downloadFile_s3(url):
-    url = urlparse(url)
-
-    bucket = url.netloc.split(".s3")
-    bucket = bucket[0]
-
-    file_name = url.path
-    file_name = file_name[1:]
-
-    s3.download_file(bucket,file_name, file_name)  
-
-def downloadFolder_s3(url):
-    url = urlparse(url)
-
-    bucket = url.netloc.split(".s3")
-    bucket = bucket[0]
+import requests
 
 
-s3 = boto3.client('s3', config=Config(signature_version=UNSIGNED))
+# url = '/giab/data/NA12878/NIST_NA12878_HG001_HiSeq_300x/140407_D00360_0017_BH947YADXX/Project_RM8398/Sample_U5c/U5c_CCGTCC_L001_R2_001.fastq.gz'
+url = 's3://giab/data/NA12878/NIST_NA12878_HG001_HiSeq_300x/140407_D00360_0017_BH947YADXX/Project_RM8398/Sample_U5c/U5c_CCGTCC_L001_R2_001.fastq.gz'
 
-url_file = 'https://xavitristancho.s3-eu-west-1.amazonaws.com/IMG_2619.JPG'
-url_folder = ''
+def downloadFile_s3(url, local_dir):
 
-downloadFile_s3(url_file)
-# downloadFolder_s3(url_folder)
+    aws = 'https://s3.amazonaws.com/'
+    url = url.split('s3://')
+
+    url = aws + url[1]
+
+    myFile = requests.get(url)
+    open(local_dir,'wb').write(myFile.content)
+
+
+downloadFile_s3(url, "/home/adrian/Desktop/pruebas")
