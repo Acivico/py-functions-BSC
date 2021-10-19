@@ -1,16 +1,27 @@
 import requests
+from urllib.parse import urlparse
+import argparse
 
-url = 's3://giab/data/NA12878/NIST_NA12878_HG001_HiSeq_300x/140407_D00360_0017_BH947YADXX/Project_RM8398/Sample_U5c/U5c_CCGTCC_L001_R2_001.fastq.gz'
-
-def downloadFile_s3(url, local_dir):
+def downloadFile_s3(url, local_path):
 
     aws = 'https://s3.amazonaws.com/'
-    url = url.split('s3://')
-
-    url = aws + url[1]
+    
+    url = urlparse(url)
+    
+    url = aws + url.netloc + url.path
 
     myFile = requests.get(url)
-    open(local_dir,'wb').write(myFile.content)
+    
+    with open(local_path,'w') as fp:
+        pass
+    
+    open(local_path,'wb').write(myFile.content)
 
+parser = argparse.ArgumentParser(description='This is the function to download file from aws s3')
+parser.add_argument('-u','--ur',action='store',dest='url',default=None,help='<Required> URL link',required=True)
+parser.add_argument('-l',action='store',dest='local_path',default=None,help='<Required> Local directory for save file',required=True)
+results = parser.parse_args()
+url = results.url
+local_path = results.local_path
 
-downloadFile_s3(url, "/home/adrian/Desktop/pruebas")
+downloadFile_s3(url, local_path)
