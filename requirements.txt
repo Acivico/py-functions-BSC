@@ -1,6 +1,9 @@
 boto3
-os
-disable-signing
+disable_signing
 urlparse
+os
+logging
 argparse
-requests
+botocore
+UNSIGNED
+Config
