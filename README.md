@@ -1,6 +1,14 @@
 # py-functions-BSC
 Functions to download content from aws s3
 
+Installation:
+
+    python3 -m venv .p
+    source .p/bin/activate
+    pip install --upgrade pip wheel
+    pip install -r requirements.txt
+
+
 Use downloadFile-s3.py
 
     python3 downloadFile-s3.py -u ["URL"] -l ["LOCAL_DIR"]
