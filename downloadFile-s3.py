@@ -10,7 +10,7 @@ import logging
     Param:
         bucket => name of bucket
         file_name => path of file in bucket
-        local_path => directory in which to save the file
+        local_path => directory to save the file
 """
 def downloadFile_s3(bucket, file_name, local_path, access_key=None, secret_key=None):
     if access_key == None and secret_key == None:
