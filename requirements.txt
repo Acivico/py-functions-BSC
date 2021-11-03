@@ -1,9 +1,4 @@
 boto3
-disable_signing
-urlparse
-os
-logging
 argparse
 botocore
-UNSIGNED
 Config
