@@ -43,10 +43,7 @@ try:
     directory = url.path
     directory = directory[1:]
     
-    if(access_key != "" and secret_key != ""):
-        downloadDirectoryFroms3(bucket,directory, access_key, secret_key)
-    else:
-        downloadDirectoryFroms3(bucket,directory)
+    downloadDirectoryFroms3(bucket,directory, access_key, secret_key)
 
 
 except botocore.exceptions.ParameterError as error:
