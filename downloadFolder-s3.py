@@ -8,7 +8,7 @@ import argparse
 
 logger = logging.getLogger('downloadFolder-s3')
 
-def downloadDirectoryFroms3(bucketName, remoteDirectoryName, local_dir, access_key=None, secret_key=None):
+def downloadDirectoryFroms3(bucketName, remoteDirectoryName, access_key=None, secret_key=None):
     if access_key == None and secret_key == None:
         s3_resource = boto3.resource('s3')
         s3_resource.meta.client.meta.events.register('choose-signer.s3.*', disable_signing)
@@ -31,12 +31,10 @@ def downloadDirectoryFroms3(bucketName, remoteDirectoryName, local_dir, access_k
 try:
     parser = argparse.ArgumentParser(description='This is the function to download folder from aws s3')
     parser.add_argument('-u',action='store',dest='url',default=None,help='<Required> URL link',required=True)
-    parser.add_argument('-l',action='store',dest='local_path',default=None,help='Local directory for save file')
     parser.add_argument('-a','--ak',action='store',dest='access_key',default=None,help='Credential for s3 bucket (access key)')
     parser.add_argument('-s','--sk',action='store',dest='secret_key',default=None,help='Credential for s3 bucket (secret key)')
     results = parser.parse_args()
     url = results.url
-    local_dir = results.local_path
     access_key = results.access_key
     secret_key = results.secret_key
 
@@ -46,9 +44,9 @@ try:
     directory = directory[1:]
     
     if(access_key != "" and secret_key != ""):
-        downloadDirectoryFroms3(bucket,directory, local_dir, access_key, secret_key)
+        downloadDirectoryFroms3(bucket,directory, access_key, secret_key)
     else:
-        downloadDirectoryFroms3(bucket,directory,local_dir)
+        downloadDirectoryFroms3(bucket,directory)
 
 
 except botocore.exceptions.ParameterError as error:
