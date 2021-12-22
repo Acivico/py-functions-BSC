@@ -18,7 +18,7 @@ def downloadContent(url, local_path, credentials=None):
                 path_service_account_json = credentials            
                 gs = storage.Client.from_service_account_json(path_service_account_json)         
         except Exception as e:
-            logging.warn("Autentication error: " + e)
+            logging.warning("Autentication error: " + e)
 
         bucket = gs.bucket(bucket)
         blob = bucket.blob(prefix)
@@ -39,15 +39,14 @@ def downloadContent(url, local_path, credentials=None):
             try:
                 blob.download_to_filename(path)
             except Exception as e:
-                logging.warn("Error downloading file " + e)
+                logging.warning("Error downloading file " + e)
 
         elif total_bobs > 1:
             try:
                 for blob in listBlobs:
                     if blob.name.endswith("/"):
                         continue
-                    file = blob.name.split("/")            
-                    file = os.path.join("/".join(file[1:-1]),' '.join(map(str, file[2:])))
+                    file = blob.name            
 
                     if(local_path[-1] == '/'):
                         path = local_path + file
@@ -60,7 +59,7 @@ def downloadContent(url, local_path, credentials=None):
                         os.makedirs(os.path.dirname(path))
                     blob.download_to_filename(path)
             except Exception as e:
-                logging.warn("Error downloading files " + e)
+                logging.warning("Error downloading files " + e)
 
 
 logger = logging.getLogger(__name__)
